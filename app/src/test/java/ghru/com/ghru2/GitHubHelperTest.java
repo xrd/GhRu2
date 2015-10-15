@@ -22,7 +22,7 @@ public class GitHubHelperTest {
         String login = "wovenmedia";
         String password = "Yerevan2011";
         String repoName = "wovenmedia.github.io";
-        String dateAndRandom = (new Date()).toString() + " (" + String.valueOf(Double.valueOf( Math.random() * 10000)) + ")";
+        String dateAndRandom = String.valueOf( Double.valueOf( Math.random() * 10000000)).toString() + (new Date()).toString() ;
         GitHubHelper ghh = new GitHubHelper( login, password );
         assert( ghh.SaveFile( repoName, dateAndRandom ) );
 
