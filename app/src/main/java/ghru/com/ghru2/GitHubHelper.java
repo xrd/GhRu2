@@ -24,9 +24,10 @@ class GitHubHelper {
         password = _password;
     }
 
-    public boolean SaveFile( String _repoName, String _post ) {
+    public boolean SaveFile( String _repoName, String _title, String _post ) {
         post = _post;
         repoName = _repoName;
+        title = _title;
 
         boolean rv = false;
 
@@ -49,29 +50,29 @@ class GitHubHelper {
         return rv;
     }
 
-
-
     Tree newTree;
     String commitMessage;
     String postContentsWithYfm;
     String contentsBase64;
     String filename;
     String post;
+    String title;
     String repoName;
 
     private void generateContent() {
         commitMessage = "GitHubRu Update";
-        postContentsWithYfm = "---\nlayout: post\npublished: true\n---\n\n" + post;
+        postContentsWithYfm = "---\nlayout: post\npublished: true\ntitle: '" + title + "'\n---\n\n" +
+                post;
         contentsBase64 = new String( Base64.encodeBase64( postContentsWithYfm.getBytes() ) );
-        getFilename( post );
+        filename = getFilename();
     }
 
-    private void getFilename( String post ) {
-        String title = post.substring( 0, post.length() > 30 ? 30 : post.length() );
-        String jekyllfied = title.toLowerCase().replaceAll( "\\W+", "-").replaceAll( "\\W+$", "" );
+    private String getFilename() {
+        String titleSub = title.substring( 0, post.length() > 30 ? 30 : post.length() );
+        String jekyllfied = titleSub.toLowerCase().replaceAll( "\\W+", "-").replaceAll( "\\W+$", "" );
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd-" );
         String prefix = sdf.format( new Date() );
-        filename = "_posts/" + prefix + jekyllfied + ".md";
+        return "_posts/" + prefix + jekyllfied + ".md";
     }
 
     String blobSha;

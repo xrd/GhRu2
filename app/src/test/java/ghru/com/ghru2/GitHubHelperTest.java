@@ -22,9 +22,10 @@ public class GitHubHelperTest {
         String login = "wovenmedia";
         String password = "Yerevan2011";
         String repoName = "wovenmedia.github.io";
-        String dateAndRandom = String.valueOf( Double.valueOf( Math.random() * 10000000)).toString() + (new Date()).toString() ;
+        String randomString = String.valueOf( Double.valueOf( Math.random() * 10000000)).toString();
+        String randomAndDate = randomString + " " + (new Date()).toString() ;
         GitHubHelper ghh = new GitHubHelper( login, password );
-        assert( ghh.SaveFile( repoName, dateAndRandom ) );
+        assert( ghh.SaveFile( repoName, randomAndDate, "Just the body text" ) );
 
         String url = "http://wovenmedia.github.io";
         OkHttpClient ok = new OkHttpClient();
@@ -33,8 +34,8 @@ public class GitHubHelperTest {
                 .build();
         Response response = ok.newCall(request).execute();
         String body = response.body().string();
-        boolean rv = body.contains( dateAndRandom );
-        assert( rv );
+        boolean rv = body.contains( randomAndDate );
+        assertTrue( "Body does not contain the expected random string and date (" + randomAndDate + ")", rv );
     }
 
 }
