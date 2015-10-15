@@ -1,4 +1,4 @@
-package ghru.com.ghru2;
+package com.ghru;
 
 import android.util.Log;
 
