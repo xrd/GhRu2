@@ -2,6 +2,7 @@ package com.ghru;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.EditText;
@@ -30,9 +31,8 @@ public class MainActivity extends Activity
                     EditText ptv = (EditText)findViewById( R.id.password );
                     username = (String)utv.getText().toString();
                     password = (String)ptv.getText().toString();
-                    TextView status = (TextView)findViewById( R.id.login_status ); 
-                    status.setText( "Logging in, please wait..." );
-                    new LoginTask().execute( username, password ); 
+
+                    new LoginTask().execute(username, password);
                 }
             });
     }
@@ -43,10 +43,23 @@ public class MainActivity extends Activity
 
         Button submit = (Button)findViewById( R.id.submit );
         submit.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    doPost(); 
-                }
-            });
+            public void onClick(View v) {
+
+                TextView status = (TextView) findViewById(R.id.login_status);
+                status.setText("Logging in, please wait...");
+
+                EditText post = (EditText) findViewById(R.id.post);
+                String postContents = post.getText().toString();
+
+                EditText repo = (EditText) findViewById(R.id.repository);
+                String repoName = repo.getText().toString();
+
+                EditText title = (EditText) findViewById(R.id.title);
+                String titleText = title.getText().toString();
+
+                doPost(repoName, titleText, postContents);
+            }
+        });
     }
 
     class LoginTask extends AsyncTask<String, Void, Boolean> {  
@@ -75,25 +88,30 @@ public class MainActivity extends Activity
         }
     }
 
-    private void doPost() {
-        new PostTask().execute( username, password ); 
+    private void doPost( String repoName, String title, String post ) {
+        new PostTask().execute( username, password, repoName, title, post );
     }
 
     class PostTask extends AsyncTask<String, Void, Boolean> {  
 
         @Override 
-            protected Boolean doInBackground(String... credentials) {
-            String login = credentials[0]; 
-            String password = credentials[1];
+            protected Boolean doInBackground(String... information) {
+            String login = information[0];
+            String password = information[1];
+            String repoName = information[2];
+            String titleText = information[3];
+            String postContents = information[4];
 
-            EditText post = (EditText)findViewById( R.id.post );
-            String postContents = post.getText().toString();
-
-            EditText repo = (EditText)findViewById( R.id.repository ); 
-            String repoName = repo.getText().toString();
-
+            Boolean rv = false;
             GitHubHelper ghh = new GitHubHelper( login, password );
-            return ghh.SaveFile( repoName, postContents );
+            try {
+                ghh.SaveFile(repoName, titleText, postContents, "GhRu Update");
+                rv = true;
+            }
+            catch( IOException ioe) {
+                Log.d(ioe.getStackTrace().toString(), "GhRu");
+            }
+            return rv;
         }
         
         @Override

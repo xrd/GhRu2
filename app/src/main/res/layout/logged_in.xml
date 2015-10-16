@@ -18,8 +18,15 @@
       android:id="@+id/repository"
       android:layout_weight="0"
       />
-  
-  <EditText
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter the blog title"
+        android:id="@+id/title"
+        android:layout_weight="0" />
+
+    <EditText
       android:gravity="top"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
