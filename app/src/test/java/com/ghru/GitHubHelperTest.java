@@ -29,7 +29,10 @@ public class GitHubHelperTest {
         String randomAndDate = randomString + " " + (new Date()).toString() ;
 
         GitHubHelper ghh = new GitHubHelper( login, password );
-        ghh.SaveFile(repoName, randomAndDate, "Some random body text", randomAndDate );
+        ghh.SaveFile(repoName, 
+		     "Some random title", 
+		     "Some random body text", 
+		     randomAndDate );
 
         String url = "https://api.github.com/repos/" + 
 	    login + "/" + repoName + "/events";
