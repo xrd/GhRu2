@@ -9,7 +9,7 @@
       android:layout_height="wrap_content"
       android:text="Logged into GitHub"
       android:layout_weight="0"
-      />
+      android:id="@+id/loggedIn" />
 
   <EditText
       android:layout_width="fill_parent"
