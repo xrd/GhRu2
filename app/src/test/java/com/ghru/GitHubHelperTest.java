@@ -43,7 +43,8 @@ public class GitHubHelperTest {
         Response response = ok.newCall(request).execute();
         String body = response.body().string();
 
-        assertTrue("Body does not contain the expected random string and date (" + randomAndDate + ")",  body.contains( randomAndDate ) );
+        assertTrue( "Body does not have: " + randomAndDate,  
+		    body.contains( randomAndDate ) );
     }
 
 }
