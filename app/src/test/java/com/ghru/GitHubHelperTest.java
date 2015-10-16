@@ -19,12 +19,15 @@ import static org.junit.Assert.*;
 public class GitHubHelperTest {
     @Test
     public void testClient() throws Exception {
+
         String login = "BurningOnUp";
         String password = System.getenv("GITHUB_HELPER_PASSWORD");
         String repoName = "BurningOnUp.github.io";
+
         int randomNumber = (int)(Math.random() * 10000000);
         String randomString = String.valueOf( randomNumber );
         String randomAndDate = randomString + " " + (new Date()).toString() ;
+
         GitHubHelper ghh = new GitHubHelper( login, password );
         ghh.SaveFile(repoName, randomAndDate, "Some random body text", randomAndDate );
 
@@ -33,12 +36,10 @@ public class GitHubHelperTest {
         Request request = new Request.Builder()
                 .url( url )
                 .build();
-
         Response response = ok.newCall(request).execute();
         String body = response.body().string();
 
-        boolean rv = body.contains( randomAndDate );
-        assertTrue("Body does not contain the expected random string and date (" + randomAndDate + ")", rv);
+        assertTrue("Body does not contain the expected random string and date (" + randomAndDate + ")",  body.contains( randomAndDate ) );
     }
 
 }
