@@ -2,6 +2,7 @@ package ghru.com.ghru2;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.EditText;
@@ -31,7 +32,7 @@ public class MainActivity extends Activity
                     username = (String)utv.getText().toString();
                     password = (String)ptv.getText().toString();
 
-                    new LoginTask().execute( username, password );
+                    new LoginTask().execute(username, password);
                 }
             });
     }
@@ -42,23 +43,23 @@ public class MainActivity extends Activity
 
         Button submit = (Button)findViewById( R.id.submit );
         submit.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
+            public void onClick(View v) {
 
-                    TextView status = (TextView)findViewById( R.id.login_status );
-                    status.setText( "Logging in, please wait..." );
+                TextView status = (TextView) findViewById(R.id.login_status);
+                status.setText("Logging in, please wait...");
 
-                    EditText post = (EditText)findViewById( R.id.post );
-                    String postContents = post.getText().toString();
+                EditText post = (EditText) findViewById(R.id.post);
+                String postContents = post.getText().toString();
 
-                    EditText repo = (EditText)findViewById( R.id.repository );
-                    String repoName = repo.getText().toString();
+                EditText repo = (EditText) findViewById(R.id.repository);
+                String repoName = repo.getText().toString();
 
-                    EditText title = (EditText)findViewById( R.id.title );
-                    String titleText = title.getText().toString();
+                EditText title = (EditText) findViewById(R.id.title);
+                String titleText = title.getText().toString();
 
-                    doPost( repoName, titleText, postContents );
-                }
-            });
+                doPost(repoName, titleText, postContents);
+            }
+        });
     }
 
     class LoginTask extends AsyncTask<String, Void, Boolean> {  
@@ -101,8 +102,16 @@ public class MainActivity extends Activity
             String titleText = information[3];
             String postContents = information[4];
 
+            Boolean rv = false;
             GitHubHelper ghh = new GitHubHelper( login, password );
-            return ghh.SaveFile( repoName, titleText, postContents );
+            try {
+                ghh.SaveFile(repoName, titleText, postContents, "GhRu Update");
+                rv = true;
+            }
+            catch( IOException ioe) {
+                Log.d(ioe.getStackTrace().toString(), "GhRu");
+            }
+            return rv;
         }
         
         @Override

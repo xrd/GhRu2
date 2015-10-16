@@ -19,23 +19,26 @@ import static org.junit.Assert.*;
 public class GitHubHelperTest {
     @Test
     public void testClient() throws Exception {
-        String login = "wovenmedia";
-        String password = "Yerevan2011";
-        String repoName = "wovenmedia.github.io";
-        String randomString = String.valueOf( Double.valueOf( Math.random() * 10000000)).toString();
+        String login = "BurningOnUp";
+        String password = System.getenv("GITHUB_HELPER_PASSWORD");
+        String repoName = "BurningOnUp.github.io";
+        int randomNumber = (int)(Math.random() * 10000000);
+        String randomString = String.valueOf( randomNumber );
         String randomAndDate = randomString + " " + (new Date()).toString() ;
         GitHubHelper ghh = new GitHubHelper( login, password );
-        assert( ghh.SaveFile( repoName, randomAndDate, "Just the body text" ) );
+        ghh.SaveFile(repoName, randomAndDate, "Some random body text", randomAndDate );
 
-        String url = "http://wovenmedia.github.io";
+        String url = "https://api.github.com/repos/" + login + "/" + repoName + "/events";
         OkHttpClient ok = new OkHttpClient();
         Request request = new Request.Builder()
-                .url(url)
+                .url( url )
                 .build();
+
         Response response = ok.newCall(request).execute();
         String body = response.body().string();
+
         boolean rv = body.contains( randomAndDate );
-        assertTrue( "Body does not contain the expected random string and date (" + randomAndDate + ")", rv );
+        assertTrue("Body does not contain the expected random string and date (" + randomAndDate + ")", rv);
     }
 
 }

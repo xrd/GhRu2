@@ -3,6 +3,7 @@ package ghru.com.ghru2;
 import android.util.Log;
 
 import org.eclipse.egit.github.core.*;
+import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.DataService;
 import org.eclipse.egit.github.core.service.RepositoryService;
@@ -24,30 +25,21 @@ class GitHubHelper {
         password = _password;
     }
 
-    public boolean SaveFile( String _repoName, String _title, String _post ) {
+    public void SaveFile( String _repoName, String _title, String _post, String _commitMessage ) throws IOException {
         post = _post;
         repoName = _repoName;
         title = _title;
+        commitMessage = _commitMessage;
 
-        boolean rv = false;
-
-        try {
-            generateContent();
-            createServices();
-            baseCommitSha = retrieveBaseSha();
-            createBlob();
-            generateTree();
-            createCommitUser();
-            createCommit();
-            createResource();
-            updateMasterResource();
-            rv = true;
-        }
-        catch( IOException ieo ) {
-            Log.d( ieo.getStackTrace().toString(), "GhRu" );
-        }
-
-        return rv;
+        generateContent();
+        createServices();
+        retrieveBaseSha();
+        createBlob();
+        generateTree();
+        createCommitUser();
+        createCommit();
+        createResource();
+        updateMasterResource();
     }
 
     Tree newTree;
@@ -60,7 +52,6 @@ class GitHubHelper {
     String repoName;
 
     private void generateContent() {
-        commitMessage = "GitHubRu Update";
         postContentsWithYfm = "---\nlayout: post\npublished: true\ntitle: '" + title + "'\n---\n\n" +
                 post;
         contentsBase64 = new String( Base64.encodeBase64( postContentsWithYfm.getBytes() ) );
@@ -103,22 +94,21 @@ class GitHubHelper {
     DataService dataService;
 
     private void createServices() throws IOException {
-        repositoryService = new RepositoryService();
-        repositoryService.getClient().setCredentials( login, password );
-        commitService = new CommitService();
-        commitService.getClient().setCredentials( login, password );
-        dataService = new DataService();
-        dataService.getClient().setCredentials( login, password );
+        GitHubClient ghc = new GitHubClient();
+        ghc.setCredentials( login, password );
+        repositoryService = new RepositoryService( ghc );
+        commitService = new CommitService( ghc );
+        dataService = new DataService( ghc );
     }
 
     Repository repository;
     RepositoryBranch theBranch;
     String baseCommitSha;
-    private String retrieveBaseSha() throws IOException {
+    private void retrieveBaseSha() throws IOException {
         // get some sha's from current state in git
         repository =  repositoryService.getRepository(login, repoName);
         theBranch = getBranch();
-        return theBranch.getCommit().getSha();
+        baseCommitSha =  theBranch.getCommit().getSha();
     }
 
     public RepositoryBranch getBranch() throws IOException {
@@ -147,23 +137,32 @@ class GitHubHelper {
         commitUser = new CommitUser();
         User user = us.getUser();
         commitUser.setDate(new Date());
-        commitUser.setName( user.getName() );
-        commitUser.setEmail( user.getEmail() );
+        String name = user.getName();
+        if( null == name || name.isEmpty() ) {
+            name = "Unknown";
+        }
+
+        commitUser.setName( name );
+        String email = user.getEmail();
+        if( null == email || email.isEmpty() ) {
+            email = "unknown@example.com";
+        }
+        commitUser.setEmail( email );
     }
 
     Commit newCommit;
     private void createCommit() throws IOException {
         // create commit
         Commit commit = new Commit();
-        commit.setMessage(commitMessage);
-        commit.setAuthor(commitUser);
+        commit.setMessage( commitMessage );
+        commit.setAuthor( commitUser);
         commit.setCommitter( commitUser );
         commit.setTree( newTree );
         List<Commit> listOfCommits = new ArrayList<Commit>();
         Commit parentCommit = new Commit();
         parentCommit.setCommitter( commitUser );
-        parentCommit.setAuthor(commitUser);
-        parentCommit.setSha(baseCommitSha);
+        parentCommit.setAuthor( commitUser );
+        parentCommit.setSha( baseCommitSha );
         listOfCommits.add(parentCommit);
         commit.setParents(listOfCommits);
         newCommit = dataService.createCommit(repository, commit);
