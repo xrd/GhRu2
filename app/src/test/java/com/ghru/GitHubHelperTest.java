@@ -34,6 +34,8 @@ public class GitHubHelperTest {
 		     "Some random body text", 
 		     randomAndDate );
 
+        Thread.sleep(3000);
+
         String url = "https://api.github.com/repos/" + 
 	    login + "/" + repoName + "/events";
         OkHttpClient ok = new OkHttpClient();
