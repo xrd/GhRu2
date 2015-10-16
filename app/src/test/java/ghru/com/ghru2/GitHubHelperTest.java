@@ -1,4 +1,4 @@
-package ghru.com.ghru2;
+package ghru.com.ghru;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
