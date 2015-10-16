@@ -1,0 +1,41 @@
+ghru.com.ghru2.GitHubHelperTest > testClient FAILED
+    java.lang.AssertionError at GitHubHelperTest.java:41
+
+1 test completed, 1 failed
+:app:testDebugUnitTest FAILED
+:app:checkReleaseManifest
+:app:prepareReleaseDependencies
+:app:compileReleaseAidl UP-TO-DATE
+:app:compileReleaseRenderscript UP-TO-DATE
+:app:generateReleaseBuildConfig UP-TO-DATE
+:app:generateReleaseAssets UP-TO-DATE
+:app:mergeReleaseAssets UP-TO-DATE
+:app:generateReleaseResValues UP-TO-DATE
+:app:generateReleaseResources UP-TO-DATE
+:app:mergeReleaseResources UP-TO-DATE
+:app:processReleaseManifest UP-TO-DATE
+:app:processReleaseResources UP-TO-DATE
+:app:generateReleaseSources UP-TO-DATE
+:app:processReleaseJavaRes UP-TO-DATE
+:app:compileReleaseJavaWithJavac UP-TO-DATE
+:app:preReleaseUnitTestBuild UP-TO-DATE
+:app:prepareReleaseUnitTestDependencies
+:app:processReleaseUnitTestJavaRes UP-TO-DATE
+:app:compileReleaseUnitTestJavaWithJavac UP-TO-DATE
+:app:compileReleaseUnitTestSources UP-TO-DATE
+:app:assembleReleaseUnitTest UP-TO-DATE
+:app:testReleaseUnitTest UP-TO-DATE
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:testDebugUnitTest'.
+> There were failing tests. See the report at: file:///Users/xrdawson/Projects/GhRu2/app/build/reports/tests/debug/index.html
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
+
+BUILD FAILED
+
+Total time: 10.307 secs
+RooseveltPwnsU:GhRu2 xrdawson$ open app/build/reports/tests/debug/index.html 

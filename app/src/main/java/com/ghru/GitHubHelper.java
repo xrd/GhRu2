@@ -59,7 +59,7 @@ class GitHubHelper {
     }
 
     private String getFilename() {
-        String titleSub = title.substring( 0, post.length() > 30 ? 30 : post.length() );
+        String titleSub = title.substring( 0, post.length() > 30 ? 30 : title.length() );
         String jekyllfied = titleSub.toLowerCase().replaceAll( "\\W+", "-").replaceAll( "\\W+$", "" );
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd-" );
         String prefix = sdf.format( new Date() );
