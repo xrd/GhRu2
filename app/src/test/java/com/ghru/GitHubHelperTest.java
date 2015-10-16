@@ -31,7 +31,8 @@ public class GitHubHelperTest {
         GitHubHelper ghh = new GitHubHelper( login, password );
         ghh.SaveFile(repoName, randomAndDate, "Some random body text", randomAndDate );
 
-        String url = "https://api.github.com/repos/" + login + "/" + repoName + "/events";
+        String url = "https://api.github.com/repos/" + 
+	    login + "/" + repoName + "/events";
         OkHttpClient ok = new OkHttpClient();
         Request request = new Request.Builder()
                 .url( url )
