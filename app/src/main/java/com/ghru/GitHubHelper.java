@@ -7,8 +7,8 @@ import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.DataService;
 import org.eclipse.egit.github.core.service.RepositoryService;
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.egit.github.core.service.UserService;
+import org.apache.commons.codec.binary.Base64;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,7 +25,10 @@ class GitHubHelper {
         password = _password;
     }
 
-    public void SaveFile( String _repoName, String _title, String _post, String _commitMessage ) throws IOException {
+    public void SaveFile( String _repoName, 
+			  String _title, 
+			  String _post, 
+			  String _commitMessage ) throws IOException {
         post = _post;
         repoName = _repoName;
         title = _title;
