@@ -7,7 +7,8 @@ import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 
-public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class MainActivityTest 
+    extends ActivityInstrumentationTestCase2<MainActivity> {
 
     public MainActivityTest() {
         super( MainActivity.class );
@@ -17,13 +18,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         MainActivity mainActivity = getActivity();
         onView( withId( R.id.username ))
-                .perform(typeText("BurningOnUp"));
+	    .perform(typeText("BurningOnUp"));
         String password = mainActivity.getString(R.string.github_helper_password);
         onView(withId(R.id.password))
-                        .perform(typeText(password));
+	    .perform(typeText(password));
         onView(withId(R.id.login))
-                .perform(click());
+	    .perform(click());
         onView( withId( R.id.loggedIn ))
-                .check( matches( withText("Logged into GitHub")) );
+	    .check( matches( withText("Logged into GitHub")) );
     }
 }
