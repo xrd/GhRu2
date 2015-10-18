@@ -55,15 +55,25 @@ class GitHubHelper {
     String repoName;
 
     private void generateContent() {
-        postContentsWithYfm = "---\nlayout: post\npublished: true\ntitle: '" + title + "'\n---\n\n" +
-                post;
-        contentsBase64 = new String( Base64.encodeBase64( postContentsWithYfm.getBytes() ) );
+        postContentsWithYfm = 
+	    "---\n" +
+	    "layout: post\n" +
+	    "published: true\n"
+	    "title: '" + title + "'\n---\n\n" +
+	    post;
+        contentsBase64 = 
+	    new String( Base64.encodeBase64( postContentsWithYfm.getBytes() ) );
         filename = getFilename();
     }
 
     private String getFilename() {
-        String titleSub = title.substring( 0, post.length() > 30 ? 30 : title.length() );
-        String jekyllfied = titleSub.toLowerCase().replaceAll( "\\W+", "-").replaceAll( "\\W+$", "" );
+        String titleSub = title.substring( 0, 
+					   post.length() > 30 ? 
+					   30 : 
+					   title.length() );
+        String jekyllfied = titleSub.toLowerCase()
+	    .replaceAll( "\\W+", "-")
+	    .replaceAll( "\\W+$", "" );
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd-" );
         String prefix = sdf.format( new Date() );
         return "_posts/" + prefix + jekyllfied + ".md";
