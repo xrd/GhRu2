@@ -13,7 +13,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         super( MainActivity.class );
     }
 
-    public void testLoaded() {
+    public void testLogin() {
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         MainActivity mainActivity = getActivity();
         onView( withId( R.id.username ))
