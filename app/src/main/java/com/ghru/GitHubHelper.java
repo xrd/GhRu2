@@ -58,7 +58,7 @@ class GitHubHelper {
         postContentsWithYfm = 
 	    "---\n" +
 	    "layout: post\n" +
-	    "published: true\n"
+	    "published: true\n" +
 	    "title: '" + title + "'\n---\n\n" +
 	    post;
         contentsBase64 = 
