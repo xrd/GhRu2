@@ -150,12 +150,13 @@ class GitHubHelper {
         commitUser = new CommitUser();
         User user = us.getUser();
         commitUser.setDate(new Date());
+
         String name = user.getName();
         if( null == name || name.isEmpty() ) {
             name = "Unknown";
         }
-
         commitUser.setName( name );
+
         String email = user.getEmail();
         if( null == email || email.isEmpty() ) {
             email = "unknown@example.com";
