@@ -172,12 +172,6 @@ class GitHubHelper {
         commit.setCommitter( commitUser );
         commit.setTree( newTree );
         List<Commit> listOfCommits = new ArrayList<Commit>();
-        Commit parentCommit = new Commit();
-        parentCommit.setCommitter( commitUser );
-        parentCommit.setAuthor( commitUser );
-        parentCommit.setSha( baseCommitSha );
-        listOfCommits.add(parentCommit);
-        commit.setParents(listOfCommits);
         newCommit = dataService.createCommit(repository, commit);
     }
 
