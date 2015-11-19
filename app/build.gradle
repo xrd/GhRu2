@@ -23,8 +23,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    testCompile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.android.support:appcompat-v7:23.0.1'
+    testCompile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
     compile( 'commons-codec:commons-codec:1.9' )
     androidTestCompile 'com.android.support.test:runner:0.4'
