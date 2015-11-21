@@ -9,7 +9,7 @@
       android:layout_height="wrap_content"
       android:text="Logged into GitHub"
       android:layout_weight="0"
-      android:id="@+id/loggedIn" />
+      android:id="@+id/status" />
 
   <EditText
       android:layout_width="fill_parent"
@@ -41,13 +41,6 @@
       android:layout_weight="0"
       android:id="@+id/submit"
       android:text="Send blog post"/>
-    
-  <TextView
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/post_status"
-      android:layout_weight="0"
-      android:text=""/>
   
 </LinearLayout>
 

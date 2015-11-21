@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.view.View;
@@ -29,8 +28,8 @@ public class MainActivity extends Activity
                 public void onClick(View v) {
                     EditText utv = (EditText)findViewById( R.id.username ); 
                     EditText ptv = (EditText)findViewById( R.id.password );
-                    username = (String)utv.getText().toString();
-                    password = (String)ptv.getText().toString();
+                    username = utv.getText().toString();
+                    password = ptv.getText().toString();
 
                     new LoginTask().execute(username, password);
                 }
@@ -44,9 +43,6 @@ public class MainActivity extends Activity
         Button submit = (Button)findViewById( R.id.submit );
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                TextView status = (TextView) findViewById(R.id.login_status);
-                status.setText("Logging in, please wait...");
 
                 EditText post = (EditText) findViewById(R.id.post);
                 String postContents = post.getText().toString();
@@ -89,7 +85,7 @@ public class MainActivity extends Activity
     }
 
     private void doPost( String repoName, String title, String post ) {
-        new PostTask().execute( username, password, repoName, title, post );
+        new PostTask().execute(username, password, repoName, title, post);
     }
 
     class PostTask extends AsyncTask<String, Void, Boolean> {  
@@ -116,9 +112,18 @@ public class MainActivity extends Activity
         
         @Override
             protected void onPostExecute(Boolean result) {
-            TextView status = (TextView)findViewById( R.id.post_status );
+            TextView status = (TextView)findViewById( R.id.status );
             if( result ) {
                 status.setText( "Successful jekyll post" );
+
+                EditText post = (EditText) findViewById(R.id.post);
+                post.setText("");
+
+                EditText repo = (EditText) findViewById(R.id.repository);
+                repo.setText("");
+
+                EditText title = (EditText) findViewById(R.id.title);
+                title.setText("");
             }
             else {
                 status.setText( "Post failed." ); 

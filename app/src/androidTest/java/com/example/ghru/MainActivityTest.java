@@ -24,7 +24,7 @@ public class MainActivityTest
 	    .perform(typeText(password));
         onView(withId(R.id.login))
 	    .perform(click());
-        onView( withId( R.id.loggedIn ))
+        onView( withId( R.id.status))
 	    .check( matches( withText("Logged into GitHub")) );
     }
 }
