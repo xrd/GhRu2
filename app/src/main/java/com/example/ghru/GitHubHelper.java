@@ -41,8 +41,6 @@ class GitHubHelper {
         generateTree();
         createCommitUser();
         createCommit();
-        createResource();
-        updateMasterResource();
     }
 
     Tree newTree;
@@ -178,21 +176,5 @@ class GitHubHelper {
         commit.setParents(listOfCommits);
         newCommit = dataService.createCommit(repository, commit);
     }
-
-    TypedResource commitResource;
-    private void createResource() {
-        commitResource = new TypedResource();
-        commitResource.setSha(newCommit.getSha());
-        commitResource.setType(TypedResource.TYPE_COMMIT);
-        commitResource.setUrl(newCommit.getUrl());
-    }
-
-    private void updateMasterResource() throws IOException {
-        // get master reference and update it
-        Reference reference = dataService.getReference(repository, "heads/" + theBranch.getName() );
-        reference.setObject(commitResource);
-        Reference response = dataService.editReference(repository, reference, true) ;
-    }
-
 
 }
