@@ -17,9 +17,9 @@ public class GitHubHelperTest {
     @Test
     public void testClient() throws Exception {
 
-        String login = "BurningOnUp";
+        String login = System.getenv("GITHUB_HELPER_USERNAME");
         String password = System.getenv("GITHUB_HELPER_PASSWORD");
-        String repoName = "BurningOnUp.github.io";
+        String repoName = login + ".github.io";
 
         int randomNumber = (int)(Math.random() * 10000000);
         String randomString = String.valueOf( randomNumber );
@@ -39,7 +39,7 @@ public class GitHubHelperTest {
         Request request = new Request.Builder()
                 .url( url )
                 .build();
-        Response response = ok.newCall(request).execute();
+        Response response = ok.newCall( request ).execute();
         String body = response.body().string();
 
         assertTrue( "Body does not have: " + randomAndDate,  

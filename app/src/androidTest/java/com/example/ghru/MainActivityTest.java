@@ -15,16 +15,21 @@ public class MainActivityTest
     }
 
     public void testLogin() {
-        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+        injectInstrumentation( InstrumentationRegistry.getInstrumentation() );
         MainActivity mainActivity = getActivity();
-        onView( withId( R.id.username ))
-	    .perform(typeText("BurningOnUp"));
-        String password = mainActivity.getString(R.string.github_helper_password);
-        onView(withId(R.id.password))
-	    .perform(typeText(password));
-        onView(withId(R.id.login))
-	    .perform(click());
-        onView( withId( R.id.status))
-	    .check( matches( withText("Logged into GitHub")) );
+        String username = mainActivity
+                .getString( R.string.github_helper_username );
+        onView( withId( R.id.username ) )
+	        .perform( typeText( username ) );
+        String password = mainActivity
+                .getString( R.string.github_helper_password );
+        onView( withId( R.id.password ) )
+	        .perform( typeText( password ) );
+        onView( withId( R.id.login ) )
+	        .perform( click() );
+        onView( withId( R.id.status ) )
+	        .check( matches( withText( "Logged into GitHub" ) ) );
+
+
     }
 }
