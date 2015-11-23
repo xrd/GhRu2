@@ -111,7 +111,7 @@ public class MainActivity extends Activity
     }
 
     private void doPost( String repoName, String title, String post ) {
-        new PostTask().execute(username, password, repoName, title, post);
+        new PostTask().execute( username, password, repoName, title, post );
     }
 
     class PostTask extends AsyncTask<String, Void, Boolean> {
