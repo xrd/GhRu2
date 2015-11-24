@@ -198,6 +198,6 @@ class GitHubHelper {
         // get master reference and update it
         Reference reference = dataService.getReference(repository, "heads/" + theBranch.getName() );
         reference.setObject(commitResource);
-        Reference response = dataService.editReference(repository, reference, true) ;
+        dataService.editReference(repository, reference, true) ;
     }
 }
