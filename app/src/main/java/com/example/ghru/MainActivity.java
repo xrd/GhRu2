@@ -127,8 +127,7 @@ public class MainActivity extends Activity
             Boolean rv = false;
             GitHubHelper ghh = new GitHubHelper(login, password);
             try {
-                ghh.SaveFile(repoName, titleText, postContents, "GhRu Update");
-                rv = true;
+                rv = ghh.SaveFile(repoName, titleText, postContents, "GhRu Update");
             } catch (IOException ioe) {
                 Log.d(ioe.getStackTrace().toString(), "GhRu");
             }

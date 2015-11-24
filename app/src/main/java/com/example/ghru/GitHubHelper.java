@@ -25,7 +25,7 @@ class GitHubHelper {
         password = _password;
     }
 
-    public void SaveFile( String _repoName, 
+    public boolean SaveFile( String _repoName,
 			  String _title, 
 			  String _post, 
 			  String _commitMessage ) throws IOException {
@@ -40,7 +40,7 @@ class GitHubHelper {
         createBlob();
         generateTree();
         createCommitUser();
-        createCommit();
+        return createCommit();
     }
 
     Tree newTree;
@@ -162,19 +162,23 @@ class GitHubHelper {
     }
 
     Commit newCommit;
-    private void createCommit() throws IOException {
-        // create commit
-        Commit commit = new Commit();
-        commit.setMessage( commitMessage );
-        commit.setAuthor( commitUser);
-        commit.setCommitter( commitUser );
-        commit.setTree( newTree );
-        List<Commit> listOfCommits = new ArrayList<Commit>();
-        Commit parentCommit = new Commit();
-        parentCommit.setSha(baseCommitSha);
-        listOfCommits.add(parentCommit);
-        commit.setParents(listOfCommits);
-        newCommit = dataService.createCommit(repository, commit);
+    private boolean createCommit() throws IOException {
+        boolean rv = false;
+        if( null != baseCommitSha && "" != baseCommitSha ) {
+            Commit commit = new Commit();
+            commit.setMessage(commitMessage);
+            commit.setAuthor(commitUser);
+            commit.setCommitter(commitUser);
+            commit.setTree(newTree);
+            List<Commit> listOfCommits = new ArrayList<Commit>();
+            Commit parentCommit = new Commit();
+            parentCommit.setSha(baseCommitSha);
+            listOfCommits.add(parentCommit);
+            commit.setParents(listOfCommits);
+            newCommit = dataService.createCommit(repository, commit);
+            rv = true;
+        }
+        return rv;
     }
 
 }
