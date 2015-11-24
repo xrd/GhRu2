@@ -70,8 +70,8 @@ class GitHubHelper {
 					   30 : 
 					   title.length() );
         String jekyllfied = titleSub.toLowerCase()
-	    .replaceAll( "\\W+", "-")
-	    .replaceAll( "\\W+$", "" );
+	    .replaceAll( "\\\\W+", "-")
+	    .replaceAll( "\\\\W+$", "" );
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd-" );
         String prefix = sdf.format( new Date() );
         return "_posts/" + prefix + jekyllfied + ".md";
