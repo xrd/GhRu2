@@ -26,9 +26,9 @@ class GitHubHelper {
     }
 
     public boolean SaveFile( String _repoName,
-			  String _title, 
-			  String _post, 
-			  String _commitMessage ) throws IOException {
+                             String _title,
+                             String _post,
+                             String _commitMessage ) throws IOException {
         post = _post;
         repoName = _repoName;
         title = _title;
@@ -44,7 +44,10 @@ class GitHubHelper {
             createBlob();
             generateTree();
             createCommitUser();
-            rv = createCommit();
+            createCommit();
+            createResource();
+            updateMasterResource();
+            rv = true;
         }
 
         return rv;
@@ -60,25 +63,25 @@ class GitHubHelper {
     String repoName;
 
     private void generateContent() {
-        postContentsWithYfm = 
-	    "---\n" +
-	    "layout: post\n" +
-	    "published: true\n" +
-	    "title: '" + title + "'\n---\n\n" +
-	    post;
-        contentsBase64 = 
-	    new String( Base64.encodeBase64( postContentsWithYfm.getBytes() ) );
+        postContentsWithYfm =
+                "---\n" +
+                        "layout: post\n" +
+                        "published: true\n" +
+                        "title: '" + title + "'\n---\n\n" +
+                        post;
+        contentsBase64 =
+                new String( Base64.encodeBase64( postContentsWithYfm.getBytes() ) );
         filename = getFilename();
     }
 
     private String getFilename() {
-        String titleSub = title.substring( 0, 
-					   post.length() > 30 ? 
-					   30 : 
-					   title.length() );
+        String titleSub = title.substring( 0,
+                post.length() > 30 ?
+                        30 :
+                        title.length() );
         String jekyllfied = titleSub.toLowerCase()
-	    .replaceAll( "\\\\W+", "-")
-	    .replaceAll( "\\\\W+$", "" );
+                .replaceAll( "\\\\W+", "-")
+                .replaceAll( "\\\\W+$", "" );
         SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd-" );
         String prefix = sdf.format( new Date() );
         return "_posts/" + prefix + jekyllfied + ".md";
@@ -169,23 +172,32 @@ class GitHubHelper {
     }
 
     Commit newCommit;
-    private boolean createCommit() throws IOException {
-        boolean rv = false;
-        if( null != baseCommitSha && "" != baseCommitSha ) {
-            Commit commit = new Commit();
-            commit.setMessage(commitMessage);
-            commit.setAuthor(commitUser);
-            commit.setCommitter(commitUser);
-            commit.setTree(newTree);
-            List<Commit> listOfCommits = new ArrayList<Commit>();
-            Commit parentCommit = new Commit();
-            parentCommit.setSha(baseCommitSha);
-            listOfCommits.add(parentCommit);
-            commit.setParents(listOfCommits);
-            newCommit = dataService.createCommit(repository, commit);
-            rv = true;
-        }
-        return rv;
+    private void createCommit() throws IOException {
+        Commit commit = new Commit();
+        commit.setMessage(commitMessage);
+        commit.setAuthor(commitUser);
+        commit.setCommitter(commitUser);
+        commit.setTree(newTree);
+        List<Commit> listOfCommits = new ArrayList<Commit>();
+        Commit parentCommit = new Commit();
+        parentCommit.setSha(baseCommitSha);
+        listOfCommits.add(parentCommit);
+        commit.setParents(listOfCommits);
+        newCommit = dataService.createCommit(repository, commit);
     }
 
+    TypedResource commitResource;
+    private void createResource() {
+        commitResource = new TypedResource();
+        commitResource.setSha(newCommit.getSha());
+        commitResource.setType(TypedResource.TYPE_COMMIT);
+        commitResource.setUrl(newCommit.getUrl());
+    }
+
+    private void updateMasterResource() throws IOException {
+        // get master reference and update it
+        Reference reference = dataService.getReference(repository, "heads/" + theBranch.getName() );
+        reference.setObject(commitResource);
+        Reference response = dataService.editReference(repository, reference, true) ;
+    }
 }
