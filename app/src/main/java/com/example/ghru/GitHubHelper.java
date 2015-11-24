@@ -34,7 +34,7 @@ class GitHubHelper {
         title = _title;
         commitMessage = _commitMessage;
 
-        boolean rv = false
+        boolean rv = false;
 
         generateContent();
         createServices();
@@ -46,7 +46,7 @@ class GitHubHelper {
             createCommitUser();
             rv = createCommit();
         }
-        
+
         return rv;
     }
 
