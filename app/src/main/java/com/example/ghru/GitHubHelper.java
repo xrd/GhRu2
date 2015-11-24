@@ -196,7 +196,9 @@ class GitHubHelper {
 
     private void updateMasterResource() throws IOException {
         // get master reference and update it
-        Reference reference = dataService.getReference(repository, "heads/" + theBranch.getName() );
+        Reference reference =
+                dataService.getReference(repository,
+                        "heads/" + theBranch.getName() );
         reference.setObject(commitResource);
         dataService.editReference(repository, reference, true) ;
     }
