@@ -34,13 +34,20 @@ class GitHubHelper {
         title = _title;
         commitMessage = _commitMessage;
 
+        boolean rv = false
+
         generateContent();
         createServices();
         retrieveBaseSha();
-        createBlob();
-        generateTree();
-        createCommitUser();
-        return createCommit();
+
+        if( null != baseCommitSha && "" != baseCommitSha ) {
+            createBlob();
+            generateTree();
+            createCommitUser();
+            rv = createCommit();
+        }
+        
+        return rv;
     }
 
     Tree newTree;
